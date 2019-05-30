@@ -1,11 +1,18 @@
 package com.examples.recipeproject.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /**
  * Created by konstantin on 26.05.2019.
  */
 @Entity
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "recipe")
 public class Notes {
 
     @Id
@@ -16,31 +23,4 @@ public class Notes {
     private String recipeNotes;
     @OneToOne
     private Recipe recipe;
-
-    public Notes() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRecipeNotes() {
-        return recipeNotes;
-    }
-
-    public void setRecipeNotes(String recipeNotes) {
-        this.recipeNotes = recipeNotes;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
 }
