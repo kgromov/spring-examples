@@ -5,6 +5,7 @@ import guru.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,5 +29,17 @@ public class RecipeServiceImpl implements RecipeService {
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         return recipeSet;
+    }
+
+    @Override
+    public Set<Recipe> findAll() {
+        Set<Recipe> recipes = new HashSet<>();
+        recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
+        return recipes;
+    }
+
+    @Override
+    public Recipe findById(Long id) {
+        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("No recipe id found by id = " + id));
     }
 }
