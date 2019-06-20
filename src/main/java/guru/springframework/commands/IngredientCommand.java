@@ -8,9 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-/**
- * Created by jt on 6/13/17.
- */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,4 +17,6 @@ public class IngredientCommand {
     private BigDecimal amount;
     private UnitOfMeasure uom;
     private Recipe recipe;
+
+    private UnitOfMeasureCommand unitOfMeasure;
 }

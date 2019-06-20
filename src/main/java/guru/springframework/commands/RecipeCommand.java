@@ -12,7 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+<<<<<<< HEAD
  * Created by jt on 6/13/17.
+=======
+ * Created by jt on 6/21/17.
+>>>>>>> 5e36016fbb595a16e848efb7dcc49b957c811589
  */
 @Getter
 @Setter
@@ -26,9 +30,13 @@ public class RecipeCommand {
     private String source;
     private String url;
     private String directions;
-    private Set<Ingredient> ingredients = new HashSet<>();
 //    private Byte[] image;
     private Difficulty difficulty;
     private Notes notes;
+
+    private Set<Ingredient> ingredients = new HashSet<>();
+    private Set<IngredientCommand> ingredientCommands = new HashSet<>();
     private Set<Category> categories = new HashSet<>();
+    private Set<CategoryCommand> categorieCommands = new HashSet<>();
+
 }
