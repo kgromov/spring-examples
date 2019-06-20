@@ -32,11 +32,8 @@ public class RecipeCommand {
     private String directions;
 //    private Byte[] image;
     private Difficulty difficulty;
-    private Notes notes;
-
-    private Set<Ingredient> ingredients = new HashSet<>();
-    private Set<IngredientCommand> ingredientCommands = new HashSet<>();
-    private Set<Category> categories = new HashSet<>();
-    private Set<CategoryCommand> categorieCommands = new HashSet<>();
+    private NotesCommand notes;
+    private Set<IngredientCommand> ingredients = new HashSet<>();
+    private Set<CategoryCommand> categories = new HashSet<>();
 
 }

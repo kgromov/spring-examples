@@ -10,17 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-<<<<<<< HEAD
 import static org.junit.Assert.*;
 
 /**
  * Created by konstantin on 17.06.2019.
-=======
-import static org.junit.Assert.assertEquals;
-
-/**
- * Created by jt on 6/17/17.
->>>>>>> 5e36016fbb595a16e848efb7dcc49b957c811589
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -48,9 +41,4 @@ public class UnitOfMeasureRepositoryIT {
 
         assertEquals("Cup", uomOptional.get().getDescription());
     }
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> 5e36016fbb595a16e848efb7dcc49b957c811589
