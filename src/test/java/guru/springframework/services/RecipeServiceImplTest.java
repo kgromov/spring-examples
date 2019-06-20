@@ -43,7 +43,7 @@ public class RecipeServiceImplTest {
 
         when(recipeRepository.findAll()).thenReturn(recipes);
 
-        Collection<Recipe> recipesReturned = recipeService.findAll();
+        Collection<Recipe> recipesReturned = recipeService.getRecipes();
         assertEquals("Not empty recipes expected", 2, recipes.size());
 
         verify(recipeRepository, times(1)).findAll();
