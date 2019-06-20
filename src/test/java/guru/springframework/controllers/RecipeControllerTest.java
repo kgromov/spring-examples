@@ -18,12 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by jt on 6/19/17.
  */
 public class RecipeControllerTest {
-
-
     @Mock
+    private
     RecipeService recipeService;
 
-    RecipeController controller;
+    private RecipeController controller;
 
     @Before
     public void setUp() throws Exception {
