@@ -83,4 +83,14 @@ public class RecipeControllerTest {
         mockMvc.perform(get("/recipe/1/update"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void testDeleteRecipe() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        mockMvc.perform(get(String.format("/recipe/%d/delete", recipe.getId())))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/" ));
+    }
 }

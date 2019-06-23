@@ -13,12 +13,14 @@ public interface RecipeService {
 
     Set<Recipe> findAll();
 
-    Recipe findById(Long l);
+    Recipe findById(Long id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
     // another way without commands, works either
     Recipe saveRecipeCommand(Recipe recipe);
 
-    RecipeCommand findCommandById(Long l);
+    RecipeCommand findCommandById(Long id);
+
+    void deleteById(Long id);
 }
