@@ -16,7 +16,6 @@ public class UnitOfMeasureCommandToUnitOfMeasure implements Converter<UnitOfMeas
     @Synchronized
     @Nullable
     @Override
-
     public UnitOfMeasure convert(UnitOfMeasureCommand source) {
         if (source == null) {
             return null;

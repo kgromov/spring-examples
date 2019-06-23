@@ -17,6 +17,7 @@ public interface RecipeService {
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
+    // another way without commands, works either
     Recipe saveRecipeCommand(Recipe recipe);
 
     RecipeCommand findCommandById(Long l);
