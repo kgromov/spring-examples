@@ -3,6 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.RecipeService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class IngredientControllerTest {
@@ -40,9 +42,19 @@ public class IngredientControllerTest {
         when(recipeService.findCommandById(anyLong())).thenReturn(command);
         // when
         mockMvc.perform(get(String.format("/recipe/%d/ingredients", command.getId())))
+                .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/list"))
                 .andExpect(model().attributeExists("recipe"));
         // then
         verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+
+
+    @Test
+    @Ignore
+    public void testShowIngredient()
+    {
+
     }
 }
