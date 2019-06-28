@@ -27,9 +27,9 @@ public class RecipeServiceImplTest {
     @Mock
     private RecipeRepository recipeRepository;
     @Mock
-    RecipeToRecipeCommand recipeToRecipeCommand;
+    private RecipeToRecipeCommand recipeToRecipeCommand;
     @Mock
-    RecipeCommandToRecipe recipeCommandToRecipe;
+    private RecipeCommandToRecipe recipeCommandToRecipe;
 
     private RecipeServiceImpl recipeService;
 
@@ -75,7 +75,27 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeComandByIdTest() throws Exception {
+    public void getRecipeCommandByIdTest() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandById = recipeService.findCommandById(1L);
+
+        assertNotNull("Null recipe returned", commandById);
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void getRecipesTest() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -98,7 +118,6 @@ public class RecipeServiceImplTest {
     public void testDeleteById()
     {
         Long idToDelete = 2L;
-
         recipeService.deleteById(idToDelete);
         verify(recipeRepository, times(1)).deleteById(anyLong());
     }

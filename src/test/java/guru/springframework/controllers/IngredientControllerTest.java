@@ -3,7 +3,6 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.RecipeService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,6 +35,7 @@ public class IngredientControllerTest {
 
     @Test
     public void testListIngredients() throws Exception {
+
         // given
         RecipeCommand command = new RecipeCommand();
         command.setId(1L);
@@ -47,14 +47,5 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("recipe"));
         // then
         verify(recipeService, times(1)).findCommandById(anyLong());
-    }
-
-
-
-    @Test
-    @Ignore
-    public void testShowIngredient()
-    {
-
     }
 }

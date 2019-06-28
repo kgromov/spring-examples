@@ -15,12 +15,12 @@ public interface RecipeService {
 
     Recipe findById(Long id);
 
+    RecipeCommand findCommandById(Long id);
+
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
     // another way without commands, works either
     Recipe saveRecipeCommand(Recipe recipe);
-
-    RecipeCommand findCommandById(Long id);
 
     void deleteById(Long id);
 }
