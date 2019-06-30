@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -40,15 +39,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe findById(Long l) {
-
-        Optional<Recipe> recipeOptional = recipeRepository.findById(l);
-
-        if (!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe Not Found!");
-        }
-
-        return recipeOptional.get();
+    public Recipe findById(Long id) {
+        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe by id = " + id + " no found!"));
     }
 
     @Override

@@ -36,26 +36,12 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
-
-        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
-
-        if (!recipeOptional.isPresent()){
-            //todo impl error handling
-            log.error("recipe id not found. Id: " + recipeId);
-        }
-
-        Recipe recipe = recipeOptional.get();
-
-        Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new RuntimeException("No recipe found by id " + recipeId));
+        return recipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                .map( ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
-
-        if(!ingredientCommandOptional.isPresent()){
-            //todo impl error handling
-            log.error("Ingredient id not found: " + ingredientId);
-        }
-
-        return ingredientCommandOptional.get();
+                .map(ingredientToIngredientCommand::convert)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No ingredient found by id " + ingredientId));
     }
 
     @Override

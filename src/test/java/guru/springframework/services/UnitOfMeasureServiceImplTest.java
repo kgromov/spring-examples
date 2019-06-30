@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class UnitOfMeasureServiceImplTest {
         when(unitOfMeasureRepository.findAll()).thenReturn(unitOfMeasures);
 
         //when
-        Set<UnitOfMeasureCommand> commands = service.listAllUoms();
+        Collection<UnitOfMeasureCommand> commands = service.listAllUoms();
 
         //then
         assertEquals(2, commands.size());
