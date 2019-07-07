@@ -1,7 +1,6 @@
 package guru.springframework.services;
 
 import guru.springframework.commands.IngredientCommand;
-import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.IngredientCommandToIngredient;
 import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.domain.Ingredient;
@@ -94,8 +93,7 @@ public class IngredientServiceImpl implements IngredientService {
         recipe.getIngredients().removeIf(ingredient ->
         {
             boolean result = ingredient.getId().equals(ingredientId);
-            if (result)
-            {
+            if (result) {
                 ingredient.setRecipe(null);
             }
             return result;
