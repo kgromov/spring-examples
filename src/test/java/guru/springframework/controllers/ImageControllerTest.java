@@ -3,14 +3,10 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.ImageService;
 import guru.springframework.services.RecipeService;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.any;
@@ -23,8 +19,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class ImageControllerTest {
+public class ImageControllerTest extends AbstractControllerTest{
     @Mock
     private ImageService imageService;
     @Mock
@@ -32,13 +29,14 @@ public class ImageControllerTest {
 
     private ImageController controller;
 
-    private MockMvc mockMvc;
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    @Override
+    protected void setControllers() {
         controller = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
+
+    @Override
+    protected Object[] getController() {
+        return new Object[]{controller};
     }
 
     @Test
@@ -98,5 +96,13 @@ public class ImageControllerTest {
         byte[] responseBytes = response.getContentAsByteArray();
 
         assertEquals(s.getBytes().length, responseBytes.length);
+    }
+
+    @Test
+    public void testGetImageNumberFormatException() throws Exception {
+
+        mockMvc.perform(get("/recipe/asdf/recipeimage"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 }

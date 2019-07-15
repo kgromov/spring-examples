@@ -18,30 +18,25 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class IngredientServiceImplTest {
-
-    private final IngredientToIngredientCommand ingredientToIngredientCommand;
-    private final IngredientCommandToIngredient ingredientCommandToIngredient;
-
     @Mock
-    RecipeRepository recipeRepository;
-
+    private RecipeRepository recipeRepository;
     @Mock
-    UnitOfMeasureRepository unitOfMeasureRepository;
+    private UnitOfMeasureRepository unitOfMeasureRepository;
 
-    IngredientService ingredientService;
-
-    //init converters
-    public IngredientServiceImplTest() {
-        this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
-        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
-    }
+    private IngredientService ingredientService;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        IngredientToIngredientCommand ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        IngredientCommandToIngredient ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
 
         ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient,
                 recipeRepository, unitOfMeasureRepository);
@@ -77,7 +72,6 @@ public class IngredientServiceImplTest {
         assertEquals(Long.valueOf(1L), ingredientCommand.getRecipeId());
         verify(recipeRepository, times(1)).findById(anyLong());
     }
-
 
     @Test
     public void testSaveRecipeCommand() throws Exception {
