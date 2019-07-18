@@ -32,7 +32,7 @@ public class IngredientServiceImplTest {
     private IngredientService ingredientService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         IngredientToIngredientCommand ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
@@ -43,7 +43,7 @@ public class IngredientServiceImplTest {
     }
 
     @Test
-    public void findByRecipeIdAndId() throws Exception {
+    public void findByRecipeIdAndId() {
         //given
         Recipe recipe = new Recipe();
         recipe.setId(1L);
@@ -74,7 +74,7 @@ public class IngredientServiceImplTest {
     }
 
     @Test
-    public void testSaveRecipeCommand() throws Exception {
+    public void testSaveRecipeCommand() {
         //given
         IngredientCommand command = new IngredientCommand();
         command.setId(3L);

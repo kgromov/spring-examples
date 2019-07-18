@@ -5,6 +5,7 @@ import guru.springframework.converters.IngredientCommandToIngredient;
 import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,19 +37,19 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new RuntimeException("No recipe found by id " + recipeId));
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException("No recipe found by id " + recipeId));
         return recipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientId))
                 .map(ingredientToIngredientCommand::convert)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No ingredient found by id " + ingredientId));
+                .orElseThrow(() -> new NotFoundException("No ingredient found by id " + ingredientId + " recipeId = " + recipeId));
     }
 
     @Override
     @Transactional
     public IngredientCommand saveIngredientCommand(IngredientCommand command) {
         Recipe recipe = recipeRepository.findById(command.getRecipeId())
-                .orElseThrow(() -> new RuntimeException("Recipe not found for id: " + command.getRecipeId()));
+                .orElseThrow(() -> new NotFoundException("Recipe not found for id: " + command.getRecipeId()));
 
         Optional<Ingredient> ingredientOptional = recipe
                 .getIngredients()
@@ -62,7 +63,7 @@ public class IngredientServiceImpl implements IngredientService {
             ingredientFound.setAmount(command.getAmount());
             ingredientFound.setUom(unitOfMeasureRepository
                     .findById(command.getUom().getId())
-                    .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
+                    .orElseThrow(() -> new NotFoundException("UOM NOT FOUND by id = " + command.getUom().getId())));
         } else {
             //add new Ingredient
             recipe.addIngredient(ingredientCommandToIngredient.convert(command));
@@ -89,7 +90,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void deleteByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new RuntimeException("No recipe found by id " + recipeId));
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException("No recipe found by id " + recipeId));
         recipe.getIngredients().removeIf(ingredient ->
         {
             boolean result = ingredient.getId().equals(ingredientId);

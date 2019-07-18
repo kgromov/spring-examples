@@ -22,23 +22,19 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class RecipeServiceIT {
 
-    public static final String NEW_DESCRIPTION = "New Description";
-
+    private static final String NEW_DESCRIPTION = "New Description";
     @Autowired
-    RecipeService recipeService;
-
+    private RecipeService recipeService;
     @Autowired
-    RecipeRepository recipeRepository;
-
+    private RecipeRepository recipeRepository;
     @Autowired
-    RecipeCommandToRecipe recipeCommandToRecipe;
-
+    private RecipeCommandToRecipe recipeCommandToRecipe;
     @Autowired
-    RecipeToRecipeCommand recipeToRecipeCommand;
+    private RecipeToRecipeCommand recipeToRecipeCommand;
 
     @Transactional
     @Test
-    public void testSaveOfDescription() throws Exception {
+    public void testSaveOfDescription() {
         //given
         Iterable<Recipe> recipes = recipeRepository.findAll();
         Recipe testRecipe = recipes.iterator().next();

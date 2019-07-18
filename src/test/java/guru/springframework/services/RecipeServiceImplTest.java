@@ -66,7 +66,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test(expected = NumberFormatException.class)
-    public void getRecipeByIdTestBadRequest() throws Exception {
+    public void getRecipeByIdTestBadRequest() {
 
         Optional<Recipe> recipeOptional = Optional.empty();
 
