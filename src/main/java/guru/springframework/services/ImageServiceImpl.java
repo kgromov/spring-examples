@@ -1,7 +1,9 @@
 package guru.springframework.services;
 
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,22 +16,17 @@ import java.io.IOException;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
-
     private final RecipeRepository recipeRepository;
-
-    public ImageServiceImpl( RecipeRepository recipeService) {
-
-        this.recipeRepository = recipeService;
-    }
 
     @Override
     @Transactional
     public void saveImageFile(Long recipeId, MultipartFile file) {
-
         try {
-            Recipe recipe = recipeRepository.findById(recipeId).get();
+            Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow( () -> new NotFoundException(String.format("Recipe by id = %d is not found", recipeId)));
 
             Byte[] byteObjects = new Byte[file.getBytes().length];
 
@@ -43,10 +40,7 @@ public class ImageServiceImpl implements ImageService {
 
             recipeRepository.save(recipe);
         } catch (IOException e) {
-            //todo handle better
             log.error("Error occurred", e);
-
-            e.printStackTrace();
         }
     }
 }
