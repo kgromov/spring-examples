@@ -25,6 +25,6 @@ public class IngredientCommand {
     @Positive
     @NotNull
     private BigDecimal amount;
-    @NotNull
+//    @NotNull
     private UnitOfMeasureCommand uom;
 }

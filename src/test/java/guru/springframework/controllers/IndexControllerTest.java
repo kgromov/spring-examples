@@ -46,7 +46,7 @@ public class IndexControllerTest {
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("recipe/list"));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class IndexControllerTest {
 
 
         //then
-        assertEquals("index", viewName);
+        assertEquals("recipe/list", viewName);
         verify(recipeService, times(1)).getRecipes();
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         Set<Recipe> setInController = argumentCaptor.getValue();
