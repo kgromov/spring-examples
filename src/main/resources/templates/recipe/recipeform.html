@@ -38,10 +38,10 @@
                                 <div class="col-md-3 form-group">
                                     <label>Categories:</label>
                                 </div>
-                                <div class="col-md-9 form-group">
+                                <div class="col-md-9 form-group" th:each="category : ${recipe.categories}">
                                     <div class="radio">
                                         <label>
-                                            <input type="checkbox" value=""/>
+                                            <input type="checkbox" th:value="${category}" th:text="${category.description}"/>
                                             Cat 1
                                         </label>
                                     </div>
