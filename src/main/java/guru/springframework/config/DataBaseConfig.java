@@ -1,6 +1,7 @@
 package guru.springframework.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -49,7 +50,7 @@ public class DataBaseConfig {
     }
 
     @Bean("mySqlProperties")
-    @Primary
+    @Profile({"dev", "prod"})
     @ConfigurationProperties(prefix = "spring.datasource.mysql")
     public DataSourceProperties dataSourceProperties() {
         return new DataSourceProperties();
@@ -91,5 +92,13 @@ public class DataBaseConfig {
     @Profile({"default", "test"})
     public PlatformTransactionManager transactionManagerForTest(@Qualifier("dataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
+    }
+
+//    @Bean
+    public SpringLiquibase liquibase(@Qualifier("dataSource") DataSource dataSource) {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:db-changelog/master.xml");
+        liquibase.setDataSource(dataSource);
+        return liquibase;
     }
 }
