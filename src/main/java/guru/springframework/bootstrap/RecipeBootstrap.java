@@ -2,7 +2,7 @@ package guru.springframework.bootstrap;
 
 import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryJpaRepository;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -26,10 +26,12 @@ import java.util.Optional;
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryJpaRepository categoryRepository;
-    private final RecipeRepository recipeRepository;
+    private final RecipeJpaRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public RecipeBootstrap(CategoryJpaRepository categoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public RecipeBootstrap(CategoryJpaRepository categoryRepository,
+                           RecipeJpaRepository recipeRepository,
+                           UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;

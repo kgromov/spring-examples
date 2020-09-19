@@ -6,7 +6,7 @@ import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -28,7 +28,7 @@ public class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
 
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeJpaRepository recipeRepository;
 
     @Mock
     RecipeToRecipeCommand recipeToRecipeCommand;
@@ -94,7 +94,7 @@ public class RecipeServiceImplTest {
     public void getRecipesTest() throws Exception {
 
         Recipe recipe = new Recipe();
-        HashSet receipesData = new HashSet();
+        Set<Recipe> receipesData = new HashSet<>();
         receipesData.add(recipe);
 
         when(recipeService.getRecipes()).thenReturn(receipesData);
@@ -108,9 +108,8 @@ public class RecipeServiceImplTest {
 
     @Test
     public void testDeleteById() throws Exception {
-
         //given
-        Long idToDelete = Long.valueOf(2L);
+        Long idToDelete = 2L;
 
         //when
         recipeService.deleteById(idToDelete);

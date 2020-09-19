@@ -1,7 +1,7 @@
 package guru.springframework.services;
 
 import guru.springframework.domain.Recipe;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class ImageServiceImplTest {
 
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeJpaRepository recipeRepository;
 
     ImageService imageService;
 
@@ -49,7 +49,7 @@ public class ImageServiceImplTest {
         imageService.saveImageFile(id, multipartFile);
 
         //then
-        verify(recipeRepository, times(1)).save(argumentCaptor.capture());
+        verify(recipeRepository, times(1)).saveOrUpdate(argumentCaptor.capture());
         Recipe savedRecipe = argumentCaptor.getValue();
         assertEquals(multipartFile.getBytes().length, savedRecipe.getImage().length);
     }

@@ -7,7 +7,7 @@ import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class IngredientServiceImplTest {
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeJpaRepository recipeRepository;
 
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
@@ -52,7 +52,7 @@ public class IngredientServiceImplTest {
     }
 
     @Test
-    public void findByRecipeIdAndReceipeIdHappyPath() throws Exception {
+    public void findByRecipeIdAndRecipeIdHappyPath() throws Exception {
         //given
         Recipe recipe = new Recipe();
         recipe.setId(1L);
@@ -97,7 +97,7 @@ public class IngredientServiceImplTest {
         savedRecipe.getIngredients().iterator().next().setId(3L);
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
-        when(recipeRepository.save(any())).thenReturn(savedRecipe);
+//        when(recipeRepository.saveOrUpdate(any(Recipe.class));
 
         //when
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
@@ -105,7 +105,7 @@ public class IngredientServiceImplTest {
         //then
         assertEquals(Long.valueOf(3L), savedCommand.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
-        verify(recipeRepository, times(1)).save(any(Recipe.class));
+        verify(recipeRepository, times(1)).saveOrUpdate(any(Recipe.class));
 
     }
 
@@ -126,6 +126,6 @@ public class IngredientServiceImplTest {
 
         //then
         verify(recipeRepository, times(1)).findById(anyLong());
-        verify(recipeRepository, times(1)).save(any(Recipe.class));
+        verify(recipeRepository, times(1)).saveOrUpdate(any(Recipe.class));
     }
 }

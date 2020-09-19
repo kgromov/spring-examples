@@ -6,7 +6,7 @@ import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
-    private final RecipeRepository recipeRepository;
+    private final RecipeJpaRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
     @Override
@@ -42,7 +42,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                .map( ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
+                .map(ingredientToIngredientCommand::convert).findFirst();
 
         if(!ingredientCommandOptional.isPresent()){
             //todo impl error handling
@@ -83,16 +83,16 @@ public class IngredientServiceImpl implements IngredientService {
                 recipe.addIngredient(ingredient);
             }
 
-            Recipe savedRecipe = recipeRepository.save(recipe);
+            recipeRepository.saveOrUpdate(recipe);
 
-            Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
+            Optional<Ingredient> savedIngredientOptional = recipe.getIngredients().stream()
                     .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
                     .findFirst();
 
             //check by description
             if(!savedIngredientOptional.isPresent()){
                 //not totally safe... But best guess
-                savedIngredientOptional = savedRecipe.getIngredients().stream()
+                savedIngredientOptional = recipe.getIngredients().stream()
                         .filter(recipeIngredients -> recipeIngredients.getDescription().equals(command.getDescription()))
                         .filter(recipeIngredients -> recipeIngredients.getAmount().equals(command.getAmount()))
                         .filter(recipeIngredients -> recipeIngredients.getUom().getId().equals(command.getUom().getId()))
@@ -128,7 +128,7 @@ public class IngredientServiceImpl implements IngredientService {
                 Ingredient ingredientToDelete = ingredientOptional.get();
                 ingredientToDelete.setRecipe(null);
                 recipe.getIngredients().remove(ingredientOptional.get());
-                recipeRepository.save(recipe);
+                recipeRepository.saveOrUpdate(recipe);
             }
         } else {
             log.debug("Recipe Id Not found. Id:" + recipeId);

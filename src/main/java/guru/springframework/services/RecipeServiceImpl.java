@@ -5,7 +5,7 @@ import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import guru.springframework.services.profiling.Profiling;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
-    private final RecipeRepository recipeRepository;
+    private final RecipeJpaRepository recipeRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
 
@@ -59,9 +59,9 @@ public class RecipeServiceImpl implements RecipeService {
         if (detachedRecipe == null) {
             throw new NotFoundException("Recipe Not Found. For ID value: " + command.getId() );
         }
-        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
-        log.debug("Saved RecipeId:" + savedRecipe.getId());
-        return recipeToRecipeCommand.convert(savedRecipe);
+        recipeRepository.saveOrUpdate(detachedRecipe);
+        log.debug("Saved RecipeId:" + detachedRecipe.getId());
+        return recipeToRecipeCommand.convert(detachedRecipe);
     }
 
     @Override

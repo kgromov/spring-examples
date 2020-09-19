@@ -2,7 +2,7 @@ package guru.springframework.services;
 
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.RecipeJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
-    private final RecipeRepository recipeRepository;
+    private final RecipeJpaRepository recipeRepository;
 
     @Override
     @Transactional
@@ -38,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
 
             recipe.setImage(byteObjects);
 
-            recipeRepository.save(recipe);
+            recipeRepository.saveOrUpdate(recipe);
         } catch (IOException e) {
             log.error("Error occurred", e);
         }
