@@ -1,6 +1,7 @@
 package guru.springframework.services;
 
 import guru.springframework.commands.RecipeCommand;
+import guru.springframework.config.DataBaseConfig;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
@@ -8,7 +9,11 @@ import guru.springframework.repositories.RecipeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +25,8 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles({"default", "test"})
+// FIXME
 public class RecipeServiceIT {
 
     public static final String NEW_DESCRIPTION = "New Description";
