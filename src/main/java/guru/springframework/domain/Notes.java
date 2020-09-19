@@ -11,16 +11,12 @@ import javax.persistence.*;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 @Table(name = "notes")
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne(mappedBy = "notes")
-    private Recipe recipe;
 
     @Lob
     @Column(name = "recipe_notes")
