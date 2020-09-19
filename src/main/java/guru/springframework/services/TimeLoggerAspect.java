@@ -28,15 +28,15 @@ public class TimeLoggerAspect {
     private final Map<TimeUnit, String> timeunits = new EnumMap<>(TimeUnit.class);
 
     @PostConstruct
-    public void init () {
+    public void init() {
         timeunits.put(TimeUnit.SECONDS, "s");
         timeunits.put(TimeUnit.MILLISECONDS, "ms");
         timeunits.put(TimeUnit.MICROSECONDS, "μs");
         timeunits.put(TimeUnit.NANOSECONDS, "ns");
     }
 
-//    @Around("@annotation(guru.springframework.services.profiling.Profiling)")
-    @Around("execution(* guru.springframework.repositories.*.*(..))")
+    @Around("@annotation(guru.springframework.services.profiling.Profiling)")
+//    @Around("execution(* guru.springframework.repositories.*.*(..))")
     public Object profile(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -48,11 +48,22 @@ public class TimeLoggerAspect {
             Object result = joinPoint.proceed(joinPoint.getArgs());
             long endTime = getEndTimeConvertedToTimeUnit(startTime, timeUnit);
             String message = String.format("Method: '%s' execution time took %d %s",
-                joinPoint.getSignature().toLongString(), endTime, timeunits.getOrDefault(timeUnit, "ms"));
+                    joinPoint.getSignature().toLongString(), endTime, timeunits.getOrDefault(timeUnit, "ms"));
             log(logLevel, () -> message);
             return result;
         }
         return joinPoint.proceed(joinPoint.getArgs());
+    }
+
+    @Around("execution(* guru.springframework.repositories.*.*(..))")
+    public Object profileRepositories(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.nanoTime();
+        Object result = joinPoint.proceed(joinPoint.getArgs());
+        long endTime = getEndTimeConvertedToTimeUnit(startTime, TimeUnit.MICROSECONDS);
+        String message = String.format("Method: '%s' execution time took %d %s",
+                joinPoint.getSignature().toLongString(), endTime, timeunits.get(TimeUnit.MICROSECONDS));
+        log(LogLevel.DEBUG, () -> message);
+        return result;
     }
 
     private static Optional<Profiling> getProfilingFromJointPoint(ProceedingJoinPoint joinPoint) {
