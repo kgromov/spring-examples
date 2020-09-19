@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "recipe")
 public class Recipe {
 
     @Id
@@ -20,7 +21,9 @@ public class Recipe {
     private Long id;
 
     private String description;
+    @Column(name = "prep_time")
     private Integer prepTime;
+    @Column(name = "cook_time")
     private Integer cookTime;
     private Integer servings;
     private String source;

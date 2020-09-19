@@ -13,16 +13,17 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
+@Table(name = "notes")
 public class Notes {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "notes")
     private Recipe recipe;
 
     @Lob
+    @Column(name = "recipe_notes")
     private String recipeNotes;
 
 }
