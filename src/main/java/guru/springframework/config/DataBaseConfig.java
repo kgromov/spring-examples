@@ -95,6 +95,9 @@ public class DataBaseConfig {
     }
 
 //    @Bean
+    // Is used for Spring; for SpringBoot is redundant:
+    // changeLog default location - db/changelog/db.changelog-master.yaml
+    // or could be specified via spring.liquibase.change-log property
     public SpringLiquibase liquibase(@Qualifier("dataSource") DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:db-changelog/master.xml");
