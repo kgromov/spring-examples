@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -21,8 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @ComponentScan(basePackages = "guru.springframework")
@@ -50,6 +46,7 @@ public class DataBaseConfig {
     }
 
     @Bean("mySqlProperties")
+    @Primary
     @Profile({"dev", "prod"})
     @ConfigurationProperties(prefix = "spring.datasource.mysql")
     public DataSourceProperties dataSourceProperties() {
@@ -68,7 +65,6 @@ public class DataBaseConfig {
     }
 
     @Bean(name = "entityManagerFactory")
-    @Profile({"dev", "prod"})
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
             EntityManagerFactoryBuilder builder, @Qualifier("dataSource") DataSource db) {
 //        Map<String, String> properties = new HashMap<>();
@@ -82,18 +78,10 @@ public class DataBaseConfig {
     }
 
     @Bean(name = "transactionManager")
-    @Profile({"dev", "prod"})
     public PlatformTransactionManager transactionManager(
             @Qualifier("entityManagerFactory") EntityManagerFactory db1EntityManagerFactory) {
         return new JpaTransactionManager(db1EntityManagerFactory);
     }
-
-    @Bean(name = "transactionManager")
-    @Profile({"default", "test"})
-    public PlatformTransactionManager transactionManagerForTest(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
 //    @Bean
     // Is used for Spring; for SpringBoot is redundant:
     // changeLog default location - db/changelog/db.changelog-master.yaml

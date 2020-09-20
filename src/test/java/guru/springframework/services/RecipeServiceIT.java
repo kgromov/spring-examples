@@ -1,19 +1,18 @@
 package guru.springframework.services;
 
 import guru.springframework.commands.RecipeCommand;
-import guru.springframework.config.DataBaseConfig;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
+import guru.springframework.domain.Difficulty;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,24 +25,40 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles({"default", "test"})
-// FIXME
+@Transactional
 public class RecipeServiceIT {
-
     public static final String NEW_DESCRIPTION = "New Description";
 
     @Autowired
-    RecipeService recipeService;
+    private RecipeService recipeService;
 
     @Autowired
-    RecipeRepository recipeRepository;
+    private RecipeRepository recipeRepository;
 
     @Autowired
-    RecipeCommandToRecipe recipeCommandToRecipe;
+    private RecipeCommandToRecipe recipeCommandToRecipe;
 
     @Autowired
-    RecipeToRecipeCommand recipeToRecipeCommand;
+    private RecipeToRecipeCommand recipeToRecipeCommand;
 
-    @Transactional
+    // Root cause was due to DataSourceTransactionManager was used as transactionManager
+    // and entityManagerFactory was even not specified - thus declarative transactions was not working
+    // for test/default profile with embedded datasource
+    /*@Before
+    @Rollback(false)
+    public void setUp() throws Exception {
+        Recipe tacosRecipe = new Recipe();
+        tacosRecipe.setId(1L);
+        tacosRecipe.setDescription("Spicy Grilled Chicken Taco");
+        tacosRecipe.setCookTime(9);
+        tacosRecipe.setPrepTime(20);
+        tacosRecipe.setDifficulty(Difficulty.MODERATE);
+        tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
+        tacosRecipe.setServings(4);
+        tacosRecipe.setSource("Simply Recipes");
+        recipeRepository.save(tacosRecipe);
+    }*/
+
     @Test
     public void testSaveOfDescription() throws Exception {
         //given
