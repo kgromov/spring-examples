@@ -9,8 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,19 +28,6 @@ public class DataBaseConfig {
     @PostConstruct
     public void init() {
         String[] profiles = env.getActiveProfiles();
-    }
-
-    @Bean("dataSource")
-    @Profile({"default", "test"})
-    public DataSource dataSourceForTest() {
-        return new EmbeddedDatabaseBuilder()
-            .generateUniqueName(true)
-            .setType(EmbeddedDatabaseType.H2)
-            .setScriptEncoding("UTF-8")
-            .ignoreFailedDrops(true)
-            .addScript("schema.sql")
-            .addScripts("data.sql")
-            .build();
     }
 
     @Bean("mySqlProperties")
