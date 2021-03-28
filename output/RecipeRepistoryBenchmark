@@ -1,0 +1,9 @@
+// test profile with H2 in memory DB
+Benchmark                                    Mode  Cnt    Score     Error  Units
+RecipeRepositoryBenchmark.findAllSpringData  avgt    3  819,585 ± 104,245  us/op
+RecipeRepositoryBenchmark.findAllSpringJpa   avgt    3  793,620 ± 282,147  us/op
+
+// dev profile with Mysql in memory DB
+Benchmark                                    Mode  Cnt     Score      Error  Units
+RecipeRepositoryBenchmark.findAllSpringData  avgt    3  9156,652 ± 4525,882  us/op
+RecipeRepositoryBenchmark.findAllSpringJpa   avgt    3  6897,281 ± 2485,796  us/op

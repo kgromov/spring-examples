@@ -5,7 +5,7 @@ import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
-import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.data.RecipeRepository;
 import guru.springframework.services.profiling.Profiling;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

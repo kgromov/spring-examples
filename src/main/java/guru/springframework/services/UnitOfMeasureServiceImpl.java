@@ -2,7 +2,7 @@ package guru.springframework.services;
 
 import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
-import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.data.UnitOfMeasureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;

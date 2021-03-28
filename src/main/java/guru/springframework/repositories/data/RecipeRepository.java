@@ -1,4 +1,4 @@
-package guru.springframework.repositories;
+package guru.springframework.repositories.data;
 
 import guru.springframework.domain.Recipe;
 import guru.springframework.services.profiling.Profiling;

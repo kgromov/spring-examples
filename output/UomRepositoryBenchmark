@@ -1,0 +1,10 @@
+// test profile with H2 in memory DB
+UomRepositoryBenchmark.findAll_JdbcTemplate  avgt    3   74,299 ±  3,890  us/op
+UomRepositoryBenchmark.findAll_SpringData    avgt    3  432,024 ± 45,814  us/op
+UomRepositoryBenchmark.findAll_SpringJpa     avgt    3  379,297 ± 38,957  us/op
+
+// dev profile with Mysql in memory DB (findAll_SpringData WTF?)
+Benchmark                                    Mode  Cnt     Score      Error  Units
+UomRepositoryBenchmark.findAll_JdbcTemplate  avgt    3   592,398 ±  128,293  us/op
+UomRepositoryBenchmark.findAll_SpringData    avgt    3  3333,437 ± 3518,321  us/op
+UomRepositoryBenchmark.findAll_SpringJpa     avgt    3   807,229 ±  324,805  us/op
