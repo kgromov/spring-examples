@@ -66,6 +66,12 @@
 			<artifactId>liquibase-core</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>classmexer</groupId>
+			<artifactId>classmexer</artifactId>
+			<version>0.03</version>
+			<systemPath>${project.basedir}/libs/classmexer.jar</systemPath>
+		</dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
